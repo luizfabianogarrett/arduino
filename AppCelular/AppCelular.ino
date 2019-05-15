@@ -53,7 +53,7 @@ const int falante = 7;
 
 void myTimerEvent()
 {
-  //Blynk.virtualWrite(V0, "http://saleshubhm.ciashop.com.br/api/v1/healthcheck");
+  //Blynk.virtualWrite(V0, "http://test.com.br/api/v1/healthcheck");
   Blynk.virtualWrite(V30, "1");
   //terminal.print("Timer Executado");
   //V4variable++;
