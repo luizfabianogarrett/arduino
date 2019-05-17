@@ -38,22 +38,21 @@ SoftwareSerial DebugSerial(2, 3); // RX, TX
 
 // You should get Auth Token in the Blynk App.
 // Go to the Project Settings (nut icon).
-char auth[] = "";
+char auth[] = "1c5e50ad1bcd430b860e380b29b96ce3";
 
 //WidgetTerminal terminal(V1);
 
 BlynkTimer timer;
 
-
-const int vermelho = 11;
-const int amarelo = 12;
-const int verde = 13;
+const int red = 11;
+const int yellow = 12;
+const int green = 13;
 const int button = 8;
-const int falante = 7;
+const int buzzer = 7;
 
 void myTimerEvent()
 {
-  //Blynk.virtualWrite(V0, "http://saleshubhm.ciashop.com.br/api/v1/healthcheck");
+  //Blynk.virtualWrite(V0, "http://demo7950991.mockable.io/api/account");
   Blynk.virtualWrite(V30, "1");
   //terminal.print("Timer Executado");
   //V4variable++;
@@ -70,7 +69,6 @@ void count()
 {
   request++;
   //terminal.print("Request " + (String)request);
-
 }
 
 
@@ -80,14 +78,14 @@ void validate()
   if ((request - response) > 3)
   {
     for (int i = 0; i < 10; i++) {
-      sirene();
-      digitalWrite(verde, LOW);
-      digitalWrite(vermelho, HIGH);
+      alert();
+      digitalWrite(green, LOW);
+      digitalWrite(red, HIGH);
       delay(30);
-      digitalWrite(vermelho, LOW);
-      digitalWrite(amarelo, HIGH);
+      digitalWrite(red, LOW);
+      digitalWrite(yellow, HIGH);
       delay(30);
-      digitalWrite(amarelo, LOW);
+      digitalWrite(yellow, LOW);
       delay(30);
 
     }
@@ -97,13 +95,13 @@ void validate()
   else
   {
     for (int i = 0; i < 10; i++) {
-      digitalWrite(vermelho, LOW);
-      digitalWrite(verde, HIGH);
+      digitalWrite(red, LOW);
+      digitalWrite(green, HIGH);
       delay(30);
-      digitalWrite(verde, LOW);
-      digitalWrite(amarelo, HIGH);
+      digitalWrite(green, LOW);
+      digitalWrite(yellow, HIGH);
       delay(30);
-      digitalWrite(amarelo, LOW);
+      digitalWrite(yellow, LOW);
       delay(30);
     }
 
@@ -113,15 +111,15 @@ void validate()
 
 
 float seno;
-int frequencia;
+int freq;
 
-void sirene() {
+void alert() {
   for (int x = 0; x < 180; x++) {
-    //converte graus para radiando e depois obtém o valor do seno
+    //converte graus para radiano e depois obtém o valor do seno
     seno = (sin(x * 3.1416 / 180));
     //gera uma frequência a partir do valor do seno
-    frequencia = 2000 + (int(seno * 1000));
-    tone(falante, frequencia);
+    freq = 2000 + (int(seno * 1000));
+    tone(buzzer, freq);
     delay(2);
   }
 }
@@ -176,11 +174,11 @@ void setup()
 {
   timer.setInterval(65000L, myTimerEvent);
 
-  pinMode(vermelho, OUTPUT);
-  pinMode(amarelo, OUTPUT);
-  pinMode(verde, OUTPUT);
+  pinMode(red, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(green, OUTPUT);
   pinMode(button, INPUT);
-  pinMode(falante, OUTPUT);
+  pinMode(buzzer, OUTPUT);
 
   // Debug console
   DebugSerial.begin(9600);
@@ -196,10 +194,10 @@ void loop()
 {
   if (digitalRead(button) == HIGH)
   {
-    apaga(verde);
-    apaga(vermelho);
-    apaga(amarelo);
-    noTone(falante);
+    off(green);
+    off(red);
+    off(yellow);
+    noTone(buzzer);
   }
 
   Blynk.run();
@@ -207,6 +205,6 @@ void loop()
 
 }
 
-void apaga(int cor) {
-  digitalWrite(cor, LOW);
+void off(int color) {
+  digitalWrite(color, LOW);
 }
