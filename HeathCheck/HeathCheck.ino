@@ -53,6 +53,7 @@ const int buzzer = 7;
 void myTimerEvent()
 {
   //Blynk.virtualWrite(V0, "http://demo7950991.mockable.io/api/account");
+
   Blynk.virtualWrite(V30, "1");
   //terminal.print("Timer Executado");
   //V4variable++;
